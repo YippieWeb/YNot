@@ -14,10 +14,10 @@ $Education = $_POST['Education'];
 $Title = $_POST['Title'];
 $Content = $_POST['Content'];
 
-$insert_note = "INSERT INTO notes (name, city, country_id, class_id, type_id, edu_id, title, content)
+$insert_post = "INSERT INTO posts (name, city, country_id, class_id, type_id, edu_id, title, content)
                VALUES ('$Name', '$City', '$Country', '$Classification', '$Type', '$Education', '$Title', '$Content')";
 
-if (!mysqli_query($con, $insert_note))
+if (!mysqli_query($con, $insert_post))
 {
     echo 'Not Inserted';
 }

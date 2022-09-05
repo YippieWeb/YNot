@@ -51,7 +51,7 @@ $all_educations_result = mysqli_query($con, $all_educations_query);
     <h2> Add post </h2>
     <div id="container">
         <br>
-        <!-------------------------------------- Add post form -------------------------------------->
+        <!--- Add post form --->
         <form method='post' action='process_insert.php'>
             <!--- Ask name --->
             <label> Name: </label>
@@ -123,6 +123,6 @@ $all_educations_result = mysqli_query($con, $all_educations_query);
 
             <input type='submit' value='Insert'>
         </form>
-        <!-------------------------------------- Add post form -------------------------------------->
+        <!--- Add post form --->
     </div>
 </main>

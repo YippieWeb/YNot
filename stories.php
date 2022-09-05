@@ -16,12 +16,12 @@ if(isset($_GET['class'])){
     $class_id=$_GET['class'];
 
     $this_class_query = "SELECT * 
-        FROM notes, countries, classifications, types, educations
-        WHERE notes.class_id = '".$class_id."'
-        AND notes.country_id = countries.country_id
-        AND notes.class_id = classifications.class_id
-        AND notes.type_id = types.type_id
-        AND notes.edu_id = educations.edu_id";
+        FROM posts, countries, classifications, types, educations
+        WHERE posts.class_id = '".$class_id."'
+        AND posts.country_id = countries.country_id
+        AND posts.class_id = classifications.class_id
+        AND posts.type_id = types.type_id
+        AND posts.edu_id = educations.edu_id";
     $result = mysqli_query($con, $this_class_query);
     }
 
@@ -29,23 +29,23 @@ if(isset($_GET['class'])){
 elseif(isset($_POST['search'])) {
     $search = $_POST['search'];
     $search_query = "SELECT *  
-                     FROM notes, countries, classifications, types, educations
-                     WHERE notes.name LIKE '%$search%'
-                     AND notes.country_id = countries.country_id
-                     AND notes.class_id = classifications.class_id
-                     AND notes.type_id = types.type_id
-                     AND notes.edu_id = educations.edu_id";
+                     FROM posts, countries, classifications, types, educations
+                     WHERE posts.name LIKE '%$search%'
+                     AND posts.country_id = countries.country_id
+                     AND posts.class_id = classifications.class_id
+                     AND posts.type_id = types.type_id
+                     AND posts.edu_id = educations.edu_id";
     $result = mysqli_query($con, $search_query);
     }
 
 /* get all the post */
 else {
     $all_query = "SELECT *  
-                  FROM notes, countries, classifications, types, educations
-                  WHERE notes.country_id = countries.country_id
-                  AND notes.class_id = classifications.class_id
-                  AND notes.type_id = types.type_id
-                  AND notes.edu_id = educations.edu_id";
+                  FROM posts, countries, classifications, types, educations
+                  WHERE posts.country_id = countries.country_id
+                  AND posts.class_id = classifications.class_id
+                  AND posts.type_id = types.type_id
+                  AND posts.edu_id = educations.edu_id";
     $result = mysqli_query($con, $all_query);
 }
 ?>

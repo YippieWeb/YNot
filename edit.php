@@ -11,9 +11,9 @@ if((!isset($_SESSION['logged_in'])) or $_SESSION['logged_in'] != 1){
 ?>
 
 <?php
-$update_notes = "SELECT * FROM notes";
-$update_notes_record = mysqli_query($con, $update_notes);
-$note_id = "notes[note_id]";
+$update_post = "SELECT * FROM posts";
+$update_posts_record = mysqli_query($con, $update_post);
+$posts_id = "posts[post_id]";
 ?>
 
 <!DOCTYPE html>
@@ -46,15 +46,15 @@ $note_id = "notes[note_id]";
             <th>Content</th>
         </tr>
         <?php
-        while($row = mysqli_fetch_assoc($update_notes_record))
+        while($row = mysqli_fetch_assoc($update_posts_record))
         {
             echo "<tr><form action = process_edit.php method = post>";
             echo "<td><input type=text name=Name value='".$row['name']."'></td>";
             echo "<td><input type=text name=Title value='".$row['title']."'></td>";
             echo "<td><input type=text name=Content value='".$row['content']."'></td>";
-            echo "<input type=hidden name=noteID value='".$row['note_id']."'>";
+            echo "<input type=hidden name=postID value='".$row['post_id']."'>";
             echo "<td><input type=submit></td>";
-            echo "<td><a href=process_delete.php?note_id=" .$row['note_id']. ">Delete</a></td>";
+            echo "<td><a href=process_delete.php?post_id=" .$row['post_id']. ">Delete</a></td>";
             echo "</form></tr>";
         }
         ?>
