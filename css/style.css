@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/*font-family: 'Poppins', sans-serif;*/
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    margin: auto;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    border-bottom: solid 0.1rem black;
+    padding: 1rem;
+}
+
+header h1{
+    text-align: left;
+}
+
+header nav a{
+    text-align: center;
+    text-decoration: none;
+}
+
+main{
+    padding: 2rem;
+}
+
+body{
+    text-align: center;
+}
+
+h1{
+    font-size: 2rem;
+}
+
+h1, h2, h3, a, p{
+    font-family: 'Poppins', sans-serif;
+    line-height: 3rem;
+}
+
+a{
+    padding: 0.5rem;
+}
+
+tr, th, td, option{
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+}
+
+
+/* format for the stories table */
+.content-table{
+    border-collapse: collapse;
+    min-width: 400px;
+}
+
+.content-table td{
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.content-table th,
+.content-table td{
+    padding: 12px 15px;
+}
+
+/* buttons */
+button{
+    font-family: 'Poppins', sans-serif;
+    padding: 0.5rem 0.8rem 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.8rem;
+    margin: 1rem 1rem;
+    border: solid 0.1rem;
+    /*border-radius: 4rem;*/
+    background-color: black;
+    color: white;
+}
+
+button:hover{
+    background-color: white;
+    color: black;
+}
+
+/* add post form */
+.add-post{
+    content-align: left;
+    justify-content: left;
+}
