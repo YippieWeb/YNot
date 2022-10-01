@@ -4,26 +4,9 @@ if(mysqli_connect_errno()){
     echo "Failed to connect to MySQL:".mysqli_connect_error(); die();}
 ?>
 
-<!DOCTYPE html>
-<html lang=""en">
-
-<head>
-    <title> YNOT </title>
-    <meta charset=""utf-8">
-    <link rel='stylesheet' type='text/css' href='style.css'>
-
-</head>
-
-<body>
-<header>
-    <h1> YNOT </h1>
-    <nav>
-        <a class='page' href='index.php'> Home</a>
-        <a class='page' href='stories.php'> Stories</a>
-        <a class='page' href='login.php'> Log in</a>
-        <a class='page' href='process_logout.php'> Log Out</a>
-    </nav>
-</header>
+<?php
+    include_once 'header.php';
+?>
 
 <main>
     <h1> Login Here </h1>
@@ -37,4 +20,18 @@ if(mysqli_connect_errno()){
 
         <input type="submit" name="submit" id="submit" value="Log In">
     </form>
+
+    <?php
+    if (isset($_GET["error"])) {
+        if ($_GET["error"] == "emptyinput") {
+            echo "<p> Fill in all fields! </p>";
+        }
+        else if ($_GET["error"] == "wronglogin") {
+            echo "<p> Incorrect login details! </p>";
+        }
+        else if ($_GET["error"] == "none") {
+            echo "<p> You are logged in! </p>";
+        }
+    }
+    ?>
 </main>

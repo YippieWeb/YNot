@@ -5,9 +5,9 @@ if(mysqli_connect_errno()){
 ?>
 
 <?php
-$delete_drink = "DELETE FROM notes WHERE note_id='$_GET[note_id]'";
+$delete_post = "DELETE FROM posts WHERE post_id='$_GET[post_id]'";
 
-if (!mysqli_query($con,$delete_drink))
+if (!mysqli_query($con,$delete_post))
 {
     echo 'Not Deleted';
 }

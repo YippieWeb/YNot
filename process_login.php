@@ -1,28 +1,28 @@
 <?php
-session_start();
+/*session_start();*/
 
 $con=mysqli_connect("localhost", "yipja", "messyboat88", "yipja_padlet");
 if(mysqli_connect_errno()){
     echo "Failed to connect to MySQL:".mysqli_connect_error(); die();}
 
-$user = trim($_POST['username']);
-$pass = trim($_POST['password']);
+/* check if log in through submitting form */
+if (isset($_POST["submit"])) {
 
-$login_query = "SELECT users.password FROM users WHERE users.username='".$user."'";
-$login_result = mysqli_query($con, $login_query);
-$login_record = mysqli_fetch_assoc($login_result);
+    $user = trim($_POST['username']);
+    $pass = trim($_POST['password']);
 
-$hash = trim($login_record['password']);
+    require_once 'functions.php';
 
-/*$verify = password_verify($pass, $hash);*/ /*not working*/
+    /* catch empty input */
+    if(emptyInputLogIn($user, $pass) !== false) {
+        header("location: login.php?error=emptyinput");
+        exit();
+    }
 
-if($pass == $hash) {
-    $_SESSION['logged_in'] = 1;
-    header("Location: index.php");
-    echo "Correct!";
+    loginUser($con, $user, $pass);
 }
-else {
-    echo "Incorrect Username or Password";
-    header("Location: login.php");
+else{
+    header("location: login.php");
+    exit();
 }
 ?>

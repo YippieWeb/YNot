@@ -5,71 +5,57 @@ if(mysqli_connect_errno()){
 ?>
 
 <?php
-/* query all classifications */
-$all_class_query="SELECT * FROM classifications";
-$all_class_result= mysqli_query($con,$all_class_query);
+/* query all cities */
+$all_city_query="SELECT * FROM cities";
+$all_city_result= mysqli_query($con,$all_city_query);
 ?>
 
 <?php
-/* classification sorting query */
-if(isset($_GET['class'])){
-    $class_id=$_GET['class'];
+/* city sorting query */
+if(isset($_GET['city'])){
+    $city_id=$_GET['city'];
 
-    $this_class_query = "SELECT * 
-        FROM posts, countries, classifications, types, educations
-        WHERE posts.class_id = '".$class_id."'
-        AND posts.country_id = countries.country_id
-        AND posts.class_id = classifications.class_id
-        AND posts.type_id = types.type_id
-        AND posts.edu_id = educations.edu_id";
-    $result = mysqli_query($con, $this_class_query);
+    $this_city_query = "SELECT users.username, cities.city, genders.gender, educations.education, tags.tag, posts.title, posts.content
+                        FROM posts, users, cities, educations, tags, genders
+                        WHERE users.city_id = '".$city_id."'
+                        AND posts.user_id = users.user_id
+                        AND posts.tag_id = tags.tag_id
+                        AND users.gender_id = genders.gender_id
+                        AND users.city_id = cities.city_id
+                        AND users.edu_id = educations.edu_id";
+    $result = mysqli_query($con, $this_city_query);
     }
 
 /* get the searched post */
 elseif(isset($_POST['search'])) {
     $search = $_POST['search'];
-    $search_query = "SELECT *  
-                     FROM posts, countries, classifications, types, educations
-                     WHERE posts.name LIKE '%$search%'
-                     AND posts.country_id = countries.country_id
-                     AND posts.class_id = classifications.class_id
-                     AND posts.type_id = types.type_id
-                     AND posts.edu_id = educations.edu_id";
+    $search_query = "SELECT users.username, cities.city, genders.gender, educations.education, tags.tag, posts.title, posts.content
+                     FROM posts, users, cities, educations, tags, genders
+                     WHERE users.username LIKE '%$search%'
+                     AND posts.user_id = users.user_id
+                     AND posts.tag_id = tags.tag_id
+                     AND users.gender_id = genders.gender_id
+                     AND users.city_id = cities.city_id
+                     AND users.edu_id = educations.edu_id";
     $result = mysqli_query($con, $search_query);
     }
 
 /* get all the post */
 else {
-    $all_query = "SELECT *  
-                  FROM posts, countries, classifications, types, educations
-                  WHERE posts.country_id = countries.country_id
-                  AND posts.class_id = classifications.class_id
-                  AND posts.type_id = types.type_id
-                  AND posts.edu_id = educations.edu_id";
+    $all_query = "SELECT users.username, cities.city, genders.gender, educations.education, tags.tag, posts.title, posts.content
+                  FROM posts, users, cities, educations, tags, genders
+                  WHERE posts.user_id = users.user_id
+                  AND posts.tag_id = tags.tag_id
+                  AND users.gender_id = genders.gender_id
+                  AND users.city_id = cities.city_id
+                  AND users.edu_id = educations.edu_id";
     $result = mysqli_query($con, $all_query);
 }
 ?>
 
-<!DOCTYPE html>
-<html lang=""en">
-
-<head>
-    <title> YNOT </title>
-    <meta charset=""utf-8">
-    <link rel='stylesheet' type='text/css' href='style.css'>
-
-</head>
-
-<body>
-<header>
-    <h1> YNOT </h1>
-    <nav>
-        <a class='page' href='index.php'> Home</a>
-        <a class='page' href='stories.php'> Stories</a>
-        <a class='page' href='login.php'> Log in</a>
-        <a class='page' href='process_logout.php'> Log Out</a>
-    </nav>
-</header>
+<?php
+include_once 'header.php';
+?>
 
 <main>
     <!--search bar-->
@@ -80,14 +66,14 @@ else {
         <input type="submit" name="submit">
     </form><br>
 
-    <!--classification sorting filter-->
+    <!--city sorting filter-->
     <form name='sorting_form' id='sorting_form' method='get' action='stories.php'>
-        <select id='class' name='class' class='choice'>
+        <select id='city' name='city' class='choice'>
             <!--options-->
             <?php
-            while($all_class_record=mysqli_fetch_assoc($all_class_result)){
-                echo"<option value='".$all_class_record['class_id']."'>";
-                echo $all_class_record['classification'];
+            while($all_city_record=mysqli_fetch_assoc($all_city_result)){
+                echo"<option value='".$all_city_record['city_id']."'>";
+                echo $all_city_record['city'];
                 echo"</option>";
             }
             ?>
@@ -115,35 +101,32 @@ else {
             $count = mysqli_num_rows($result);
             if ($count == 0) /*no matches*/ {
                 echo "<p>There was no search results!</p>";
+                header("Refresh:1; url=stories.php");
             }
             else {
                 echo "
                 <table align=center class='content-table'>
                     <tr>
-                        <th> Name</th>
+                        <th> Username</th>
                         <th> City</th>
-                        <th> Country</th>
-                        <th> Classification</th>
-                        <th> Job Type</th>
                         <th> Education</th>
+                        <th> Tag</th>
                         <th> Title</th>
                         <th> Content</th>
                     </tr>";
 
                 while ($row = mysqli_fetch_array($result)) {
-                    /* set name to 'Anonymous' if null */
+                    /* set name to 'Anonymous' if null
                     if (empty($row['name'])) {
                         $row['name'] = "Anonymous";
-                    }
+                    }*/
 
                     /* iterate and display all info */
                     echo ' <tr> 
-                    <td>' . $row['name'] . '</td>
+                    <td>' . $row['username'] . '</td>
                     <td>' . $row['city'] . '</td>
-                    <td>' . $row['country'] . '</td>
-                    <td>' . $row['classification'] . '</td>
-                    <td>' . $row['type'] . '</td>
                     <td>' . $row['education'] . '</td>
+                    <td>' . $row['tag'] . '</td>
                     <td>' . $row['title'] . '</td>
                     <td>' . $row['content'] . '</td>
                     </tr>';

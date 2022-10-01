@@ -5,47 +5,21 @@ if(mysqli_connect_errno()){
 ?>
 
 <?php
-/*Country Query*/
-/*SELECT country_id, country FROM countries*/
-$all_countries_query = "SELECT country_id, country FROM countries";
-$all_countries_result = mysqli_query($con, $all_countries_query);
-
-/*Classification Query*/
-/*SELECT class_id, classification FROM classifications*/
-$all_classes_query = "SELECT class_id, classification FROM classifications";
-$all_classes_result = mysqli_query($con, $all_classes_query);
-
-/*Job Type Query*/
-/*SELECT type_id, type FROM types*/
-$all_types_query = "SELECT type_id, type FROM types";
-$all_types_result = mysqli_query($con, $all_types_query);
-
-/*Education Query*/
-/*SELECT edu_id, education FROM educations*/
-$all_educations_query = "SELECT edu_id, education FROM educations";
-$all_educations_result = mysqli_query($con, $all_educations_query);
+include_once 'header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang=""en">
+<?php
+/*User Query* /
+/*SELECT user_id, username FROM users*/
+$this_username_query = "SELECT user_id, username FROM users 
+                        WHERE user_id = '".$_SESSION["user_id"]."'";
+$this_username_result = mysqli_query($con, $this_username_query);
 
-<head>
-    <title> YNOT </title>
-    <meta charset=""utf-8">
-    <link rel='stylesheet' type='text/css' href='style.css'>
-
-</head>
-
-<body>
-<header>
-    <h1> YNOT </h1>
-    <nav>
-        <a class='page' href='index.php'> Home</a>
-        <a class='page' href='stories.php'> Stories</a>
-        <a class='page' href='login.php'> Log in</a>
-        <a class='page' href='process_logout.php'> Log Out</a>
-    </nav>
-</header>
+/*Tag Query*/
+/*SELECT country_id, country FROM countries*/
+$all_tag_query = "SELECT tag_id, tag FROM tags";
+$all_tag_result = mysqli_query($con, $all_tag_query);
+?>
 
 <main>
     <h2> Add post </h2>
@@ -53,61 +27,27 @@ $all_educations_result = mysqli_query($con, $all_educations_query);
         <br>
         <!--- Add post form --->
         <form method='post' action='process_insert.php'>
-            <!--- Ask name --->
-            <label> Name: </label>
-            <input type="text" name="Name"><br>
-
-            <!--- Ask city --->
-            <label> City: </label>
-            <input type="text" name="City"><br>
-
-            <!--- Ask country (drop-down) --->
-            <label> Country: </label>
-            <select id='country' name='Country' class='choice'>
-                <!--- country options --->
+            <!--- Show username --->
+            <label> Username: </label>
+            <select id="userid" name="UserId">
                 <?php
-                while($all_countries_record=mysqli_fetch_assoc($all_countries_result)){
-                    echo"<option value='".$all_countries_record['country_id']."'>";
-                    echo $all_countries_record['country'];
+                while($this_username_record=mysqli_fetch_assoc($this_username_result)){
+                    echo"<option value='".$this_username_record['user_id']."'>";
+                    echo $this_username_record['username'];
                     echo"</option>";
                 }
                 ?>
-            </select><br>
+            </select>
+            <br>
 
-            <!--- Ask classification (drop-down) --->
-            <label> Classification: </label>
-            <select id='Classification' name='Classification' class='choice'>
-                <!--- classification options --->
+            <!--- Ask tag (drop-down) --->
+            <label> Tag: </label>
+            <select id='tag' name='Tag' class='choice'>
+                <!--- tag options --->
                 <?php
-                while($all_classes_record=mysqli_fetch_assoc($all_classes_result)){
-                    echo"<option value='".$all_classes_record['class_id']."'>";
-                    echo $all_classes_record['classification'];
-                    echo"</option>";
-                }
-                ?>
-            </select><br>
-
-            <!--- Ask job type (drop-down) --->
-            <label> Type: </label>
-            <select id='Type' name='Type' class='choice'>
-                <!--- job type options --->
-                <?php
-                while($all_types_record=mysqli_fetch_assoc($all_types_result)){
-                    echo"<option value='".$all_types_record['type_id']."'>";
-                    echo $all_types_record['type'];
-                    echo"</option>";
-                }
-                ?>
-            </select><br>
-
-            <!--- Ask education (drop-down) --->
-            <label> Education: </label>
-            <select id='Education' name='Education' class='choice'>
-                <!--- education options --->
-                <?php
-                while($all_educations_record=mysqli_fetch_assoc($all_educations_result)){
-                    echo"<option value='".$all_educations_record['edu_id']."'>";
-                    echo $all_educations_record['education'];
+                while($all_tag_record=mysqli_fetch_assoc($all_tag_result)){
+                    echo"<option value='".$all_tag_record['tag_id']."'>";
+                    echo $all_tag_record['tag'];
                     echo"</option>";
                 }
                 ?>

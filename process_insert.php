@@ -5,17 +5,13 @@ if(mysqli_connect_errno()){
 ?>
 
 <?php
-$Name = $_POST['Name'];
-$City = $_POST['City'];
-$Country = $_POST['Country'];
-$Classification = $_POST['Classification'];
-$Type = $_POST['Type'];
-$Education = $_POST['Education'];
+$UserId = $_POST['UserId'];
+$Tag = $_POST['Tag'];
 $Title = $_POST['Title'];
 $Content = $_POST['Content'];
 
-$insert_post = "INSERT INTO posts (name, city, country_id, class_id, type_id, edu_id, title, content)
-               VALUES ('$Name', '$City', '$Country', '$Classification', '$Type', '$Education', '$Title', '$Content')";
+$insert_post = "INSERT INTO posts (user_id, tag_id, title, content)
+               VALUES ('$UserId', '$Tag', '$Title', '$Content')";
 
 if (!mysqli_query($con, $insert_post))
 {
