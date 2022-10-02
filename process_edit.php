@@ -5,7 +5,27 @@ if(mysqli_connect_errno()){
 ?>
 
 <?php
-$update_post = "UPDATE posts SET title='$_POST[Title]', content='$_POST[Content]' WHERE post_id='$_POST[postID]'";
+if (isset($_POST["submit"])) {
+    $PostID = $_POST['PostID'];
+    $Title = $_POST['Title'];
+    $Content = $_POST['Content'];
+
+    require_once 'functions.php';
+
+    /* catch empty input */
+    if (emptyInputUpdate($Title, $Content) !== false) {
+        header("location: edit.php?error=emptyinput");
+        exit();
+    }
+
+    updatePost($con, $PostID, $Title, $Content);
+}
+else{
+    header("location: edit.php");
+    exit();
+}
+
+$update_post = "UPDATE posts SET title='$_POST[Title]', content='$_POST[Content]' WHERE post_id='$_POST[PostID]'";
 
 if (!mysqli_query($con,$update_post))
 {
@@ -13,7 +33,6 @@ if (!mysqli_query($con,$update_post))
 }
 else
 {
-    echo 'Updated';
-    header("Refresh:0.5; url=stories.php");
+    header("location: edit.php");
 }
 ?>
