@@ -10,28 +10,31 @@ if(mysqli_connect_errno()){
 
 <main>
     <h1> Login Here </h1>
+    <div class="login-form">
     <!--Login form-->
     <form name="login_form" id="login_form" method="post" action="process_login.php">
-        <label for="username">Username:</label>
+        <label for="username">Username:</label><br>
         <input type="text" name="username"><br>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" name="password"><br><br>
 
-        <input type="submit" name="submit" id="submit" value="Log In">
+        <input class="btn-1 var-1" type="submit" name="submit" id="submit" value="Log In">
     </form>
+    </div>
 
     <?php
     if (isset($_GET["error"])) {
         if ($_GET["error"] == "emptyinput") {
-            echo "<p> Fill in all fields! </p>";
+            echo "<h4> Fill in all fields! </h4>";
         }
         else if ($_GET["error"] == "wronglogin") {
-            echo "<p> Incorrect login details! </p>";
+            echo "<h4> Incorrect login details! </h4>";
         }
         else if ($_GET["error"] == "none") {
-            echo "<p> You are logged in! </p>";
+            echo "<h4> You are logged in! </h4>";
         }
     }
     ?>
+
 </main>

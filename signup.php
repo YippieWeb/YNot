@@ -21,41 +21,34 @@ $all_edu_query = "SELECT edu_id, education FROM educations";
 $all_edu_result = mysqli_query($con, $all_edu_query);
 ?>
 
-<!DOCTYPE html>
-<html lang=""en">
-
-<head>
-    <title> YNOT </title>
-    <meta charset=""utf-8">
-    <link rel='stylesheet' type='text/css' href='css/style.css'>
-
-</head>
-
-<body>
-<header>
-    <h1> YNOT </h1>
-    <nav>
-        <a class='page' href='index.php'> Home</a>
-        <a class='page' href='stories.php'> Stories</a>
-        <a class='page' href='signup.php'> Sign up</a>
-        <a class='page' href='login.php'> Log in</a>
-        <a class='page' href='process_logout.php'> Log Out</a>
-    </nav>
-</header>
+<?php
+include_once 'header.php';
+?>
 
 <main>
-    <h1> Sign Up Here </h1>
+    <h1> Welcome to YNot. </h1>
+    <p class="ins">Create an account or<a href="login.php">log in</a></p>
+
+    <div class="sign-up-form">
     <!--Sign up form-->
     <form name="signup_form" id="signup_form" method="post" action="process_signup.php">
         <!--- Ask name --->
-        <label>First Name:</label>
+        <label>First Name:</label><br>
         <input type="text" name="FName"><br>
 
-        <label>Last Name:</label>
+        <label>Last Name:</label><br>
         <input type="text" name="LName"><br>
 
+        <?php
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "invalidname") {
+                echo "<h4> Please enter a valid name. </h4>";
+            }
+        }
+        ?>
+
         <!--- Ask gender --->
-        <label>Gender:</label>
+        <label>Gender:</label><br>
         <select id='gender' name="Gender" class='choice'>
             <!--- gender options --->
             <?php
@@ -68,7 +61,7 @@ $all_edu_result = mysqli_query($con, $all_edu_query);
         </select><br>
 
         <!--- Ask education level --->
-        <label>Education Level:</label>
+        <label>Education Level:</label><br>
         <select id='edu' name="Edu" class='choice'>
             <!--- edu level options --->
             <?php
@@ -81,7 +74,7 @@ $all_edu_result = mysqli_query($con, $all_edu_query);
         </select><br>
 
         <!--- Ask city (drop-down) --->
-        <label>City:</label>
+        <label>City:</label><br>
         <select id='city' name="City" class='choice'>
             <!--- city options --->
             <?php
@@ -94,41 +87,65 @@ $all_edu_result = mysqli_query($con, $all_edu_query);
         </select><br>
 
         <!--- Ask username --->
-        <label>Username:</label>
+        <label>Username:</label><br>
         <input type="text" name="Username"><br>
 
+        <?php
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "invaliduid") {
+                echo "<h4> Only letters and numbers allowed in username! </h4>";
+            }
+        else if ($_GET["error"] == "usernametaken") {
+                echo "<h4> Username already taken! </h4>";
+            }
+        }
+        ?>
+
         <!--- Ask password --->
-        <label>Password:</label>
+        <label>Password:</label><br>
         <input type="password" name="Password"><br>
 
+        <?php
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "badpassword") {
+                echo "<h4> Password must contain a minimum of eight characters, one uppercase letter, <br>
+                      one number, and one special character.</h4>";
+            }
+        }
+        ?>
+
         <!--- Ask to repeat password --->
-        <label>Repeat password:</label>
-        <input type="password" name="RepeatPassword"><br>
+        <label>Repeat password:</label><br>
+        <input type="password" name="RepeatPassword"><br><br>
 
-        <input type="submit" name="submit" id="submit" value="Sign Up">
+        <?php
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "passwordsdontmatch") {
+                echo "<h4> Passwords don't match! </h4>";
+            }
+        }
+        ?>
+
+        <input class="btn-1 var-1" type="submit" name="submit" id="submit" value="Sign Up">
     </form>
+    </div>
 
+    <!--- General errors -->
     <?php
         if (isset($_GET["error"])) {
-            if ($_GET["error"] == "emptyinput") {
-                echo "<p> Fill in all fields! </p>";
+            if ($_GET["error"] == "emptyinput") { // prevent empty input
+                echo "<h4> Fill in all fields! </h4>";
             }
-            else if ($_GET["error"] == "invaliduid") {
-                echo "<p> Choose a proper username! </p>";
+            else if ($_GET["error"] == "stmtfailed") { // backend dysfunction
+                echo "<h4> Something went wrong, try again! </h4>";
             }
-            else if ($_GET["error"] == "passwordsdontmatch") {
-                echo "<p> Passwords don't match! </p>";
-            }
-            else if ($_GET["error"] == "stmtfailed") {
-                echo "<p> Something went wrong, try again! </p>";
-            }
-            else if ($_GET["error"] == "usernametaken") {
-                echo "<p> Username already taken! </p>";
-            }
-            else if ($_GET["error"] == "none") {
-                echo "<p> You have signed up! </p>";
+
+            else if ($_GET["error"] == "none") { // no error, allow sign up
+                echo "<h4> You have signed up! </h4>";
+                header("Refresh:0.5; url=login.php");
             }
         }
     ?>
+
 
 </main>

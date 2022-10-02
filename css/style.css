@@ -3,7 +3,6 @@
 
 *{
     padding: 0;
-    margin: 0;
     box-sizing: border-box;
     margin: auto;
 }
@@ -36,18 +35,47 @@ h1{
     font-size: 2rem;
 }
 
-h1, h2, h3, a, p{
+h1, h2, h3, a, p, .choice{
     font-family: 'Poppins', sans-serif;
     line-height: 3rem;
 }
 
-a{
-    padding: 0.5rem;
+h4{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #AE2012;
+    line-height: 2rem;
 }
+
+a{
+    text-decoration: none;
+    padding: 0.5rem;
+    color: black;
+}
+
+.ins p{
+    font-size: 0.9rem;
+}
+
+.ins a{
+    color: #2f74b1;
+}
+
 
 tr, th, td, option{
     font-family: 'Poppins', sans-serif;
     font-size: 0.8rem;
+}
+
+label{
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    line-height: 2rem;
+}
+
+td{
+    text-align: left;
 }
 
 
@@ -57,7 +85,7 @@ tr, th, td, option{
     min-width: 400px;
 }
 
-.content-table td{
+.content-table td {
     border-bottom: 1px solid #DDDDDD;
 }
 
@@ -67,26 +95,139 @@ tr, th, td, option{
 }
 
 /* buttons */
-button{
+.btn-1, .btn-2{
     font-family: 'Poppins', sans-serif;
     padding: 0.5rem 0.8rem 0.5rem;
     text-align: center;
     text-decoration: none;
     font-size: 0.8rem;
-    margin: 1rem 1rem;
     border: solid 0.1rem;
-    /*border-radius: 4rem;*/
     background-color: black;
     color: white;
+    height: 2.5rem;
 }
 
-button:hover{
+
+.var-2{
+    width: 7rem;
+}
+
+.edit-btn{
+    padding-top: 1rem;
+    display: inline-flex;
+    width: 15rem;
+}
+
+.delete-btn{
+    background-color: #AE2012;
+    border: none;
+    height: 2.3rem;
+    width: 6.9rem;
+}
+
+.delete-btn a{
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1rem;
+}
+
+
+.btn-2{
     background-color: white;
     color: black;
+ }
+
+.btn-1:hover{
+    background-color: white;
+    color: black;
+}
+
+.btn-2:hover{
+    background-color: black;
+    color: white;
 }
 
 /* add post form */
 .add-post{
     content-align: left;
     justify-content: left;
+}
+
+.sign-up-form, .insert-form, .login-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+}
+
+input, textarea, select{
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    height: 35px;
+    width: 400px;
+    border: 1px solid #adadad;
+    border-radius: 2px;
+    padding: 0 10px;
+}
+
+textarea{
+    height: 200px;
+}
+
+.stories input, .stories select{
+    height: 40px;
+    width: 200px;
+}
+
+.post{
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    max-width: 500px;
+    height: 500px;
+    text-align: left;
+    padding: 2rem;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.post p{
+    font-size: 1rem;
+    line-height: 1.8rem;
+}
+
+.post h2{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.post h4{
+    color: black;
+}
+
+.tag{
+    font-family: 'Poppins', sans-serif;
+    padding: 0.2rem 0.4rem 0.2rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.6rem;
+    border: 0;
+    border-radius: 0.8rem;
+}
+
+.fa-solid{
+    width: 17px;
+}
+
+.post-container{
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+}
+
+.stories-page{
+    margin: auto;
+    justify-content: center;
 }

@@ -13,8 +13,7 @@ if (!mysqli_query($con,$delete_post))
 }
 else
 {
-    echo 'Deleted';
-    header("Refresh:0.5; url=stories.php");
+    header("location: edit.php");
 }
 ?>
 

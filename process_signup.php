@@ -25,25 +25,37 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
-    /* catch invalid username (i.e. contain special characters) */
+    // catch invalid name (i.e. contain special characters)
+    if(invalidName($FName, $LName) !== false) {
+        header("location: signup.php?error=invalidname");
+        exit();
+    }
+
+    // catch invalid username (i.e. contain special characters)
     if(invalidUid($Username) !== false) {
         header("location: signup.php?error=invaliduid");
         exit();
     }
 
-    /* catch mismatching password */
-    if(pwdMatch($Password, $RepeatPassword) !== false) {
-        header("location: signup.php?error=passwordsdontmatch");
-        exit();
-    }
-
-    /* catch duplicated username */
+    // catch duplicated username
     if(uidExists($con, $Username) !== false) {
         header("location: signup.php?error=usernametaken");
         exit();
     }
 
-    /* create user in database successfully */
+    // catch bad password
+    if(badPassword($Password) !== false) {
+        header("location: signup.php?error=badpassword");
+        exit();
+    }
+
+    // catch mismatching password
+    if(pwdMatch($Password, $RepeatPassword) !== false) {
+        header("location: signup.php?error=passwordsdontmatch");
+        exit();
+    }
+
+    // create user in database successfully
     createUser($con, $FName, $LName, $Gender, $Edu, $City, $Username, $Password);
 
 }
