@@ -15,7 +15,7 @@ $all_city_result= mysqli_query($con,$all_city_query);
 if(isset($_GET['city'])){
     $city_id=$_GET['city'];
 
-    $this_city_query = "SELECT users.username, cities.city, genders.gender, educations.education, tags.tag, posts.title, posts.content
+    $this_city_query = "SELECT *
                         FROM posts, users, cities, educations, tags, genders
                         WHERE users.city_id = '".$city_id."'
                         AND posts.user_id = users.user_id
@@ -29,9 +29,9 @@ if(isset($_GET['city'])){
 /* get the searched post */
 elseif(isset($_POST['search'])) {
     $search = $_POST['search'];
-    $search_query = "SELECT users.username, cities.city, genders.gender, educations.education, tags.tag, posts.title, posts.content
+    $search_query = "SELECT *
                      FROM posts, users, cities, educations, tags, genders
-                     WHERE users.username LIKE '%$search%'
+                     WHERE posts.title LIKE '%$search%'
                      AND posts.user_id = users.user_id
                      AND posts.tag_id = tags.tag_id
                      AND users.gender_id = genders.gender_id
@@ -42,7 +42,7 @@ elseif(isset($_POST['search'])) {
 
 /* get all the post */
 else {
-    $all_query = "SELECT users.username, cities.city, genders.gender, educations.education, tags.tag, posts.title, posts.content
+    $all_query = "SELECT *
                   FROM posts, users, cities, educations, tags, genders
                   WHERE posts.user_id = users.user_id
                   AND posts.tag_id = tags.tag_id
@@ -57,13 +57,13 @@ else {
 include_once 'header.php';
 ?>
 
-<main>
+<main class="stories-page">
     <!--search bar-->
     <form action="stories.php" method="post">
         <label for="search">
-            <input type="text" name='search' placeholder="Search by name">
+            <input type="text" name='search' placeholder="Search by title">
         </label>
-        <input type="submit" name="submit">
+        <input class="btn-1 var-2" type="submit" name="submit">
     </form><br>
 
     <!--city sorting filter-->
@@ -78,62 +78,56 @@ include_once 'header.php';
             }
             ?>
         </select>
-        <input type='submit' name='sorting_button' value='Sort'>
-    </form><br>
+        <input class="btn-1 var-2" type='submit' name='sorting_button' value='Sort'>
+    </form>
+    <br>
 
     <!--refresh button-->
     <a href="stories.php">
-        <button>Refresh page</button>
+        <button class="btn-1">Refresh page</button>
     </a>
 
-    <!--- a button that allows adding post --->
-    <a href="insert.php">
-        <button>Add a post</button>
+    <?php
+    if (isset($_SESSION["user_id"])) {
+        echo "
+        <!--- a button that allows adding post --->
+    <a href=\"insert.php\">
+        <button class=\"btn-1\">Add a post</button>
     </a>
 
     <!--- a button that allows updating/deleting post --->
-    <a href="edit.php">
-        <button>Edit a post</button>
-    </a>
+    <a href=\"edit.php\">
+        <button class=\"btn-1\">Edit a post</button>
+    </a>";
+    }
+    ?>
+    <br><br><br>
 
-    <!--stories table-->
+
+    <!--- posts --->
         <?php
-            $count = mysqli_num_rows($result);
-            if ($count == 0) /*no matches*/ {
-                echo "<p>There was no search results!</p>";
-                header("Refresh:1; url=stories.php");
-            }
-            else {
+        $count = mysqli_num_rows($result);
+        if ($count == 0) /*no matches*/ {
+            echo "<p>There was no search results!</p>";
+            header("Refresh:1; url=stories.php");
+        }
+        else {
+            echo "<div class=\"post-container\">";
+            while ($row = mysqli_fetch_array($result)) {
                 echo "
-                <table align=center class='content-table'>
-                    <tr>
-                        <th> Username</th>
-                        <th> City</th>
-                        <th> Education</th>
-                        <th> Tag</th>
-                        <th> Title</th>
-                        <th> Content</th>
-                    </tr>";
-
-                while ($row = mysqli_fetch_array($result)) {
-                    /* set name to 'Anonymous' if null
-                    if (empty($row['name'])) {
-                        $row['name'] = "Anonymous";
-                    }*/
-
-                    /* iterate and display all info */
-                    echo ' <tr> 
-                    <td>' . $row['username'] . '</td>
-                    <td>' . $row['city'] . '</td>
-                    <td>' . $row['education'] . '</td>
-                    <td>' . $row['tag'] . '</td>
-                    <td>' . $row['title'] . '</td>
-                    <td>' . $row['content'] . '</td>
-                    </tr>';
-                }
+                <div class=\"post\">
+                <h4><i class=\"fa-solid fa-user\"></i> " . $row['username'] . "</h4>
+                <h4><i class=\"fa-solid fa-location-dot\"></i> " . $row['city'] . "</h4>
+                <h4><i class=\"fa-solid fa-graduation-cap\"></i> " . $row['education'] . "</h4><br>
+                <button class=\"tag\" style=\"color:".$row['text_color']."; background-color:".$row['bg_color'].";\" type=\"button\">" . $row['tag'] . "</button>
+                <h2>" . $row['title'] . "</h2>
+                <p>" . $row['content'] . "</p>
+                </div>
+                ";
             }
+            echo "</div>";
+        }
         ?>
-        </table>
 
 </main>
 </body>
