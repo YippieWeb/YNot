@@ -5,6 +5,29 @@ if(mysqli_connect_errno()){
 ?>
 
 <?php
+if (isset($_POST["submit"])) {
+
+    $UserId = $_POST['UserId'];
+    $Tag = $_POST['Tag'];
+    $Title = $_POST['Title'];
+    $Content = $_POST['Content'];
+
+    require_once 'functions.php';
+
+    /* catch empty input */
+    if (emptyInputInsert($UserId, $Tag, $Title, $Content) !== false) {
+        header("location: insert.php?error=emptyinput");
+        exit();
+    }
+
+    createPost($con, $UserId, $Tag, $Title, $Content);
+}
+else{
+    header("location: insert.php");
+    exit();
+}
+
+/*
 $UserId = $_POST['UserId'];
 $Tag = $_POST['Tag'];
 $Title = $_POST['Title'];
@@ -23,3 +46,4 @@ else
     header("Refresh:0.5; url=stories.php");
 }
 ?>
+*/

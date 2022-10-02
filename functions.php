@@ -12,9 +12,9 @@ function emptyInputSignUp($FName, $LName, $Gender, $Edu, $City, $Username, $Pass
     return $result;
 }
 
-function invalidUid($Username) {
+function invalidName($FName, $LName) {
     $result = true;
-    if (!preg_match("/^[a-zA-Z0-9]*$/", $Username)) {
+    if (!preg_match("/^[a-zA-Z]*$/", $FName OR $LName)) {
         $result = true;
     }
     else {
@@ -24,9 +24,9 @@ function invalidUid($Username) {
     return $result;
 }
 
-function pwdMatch($Password, $RepeatPassword) {
+function invalidUid($Username) {
     $result = true;
-    if ($Password !== $RepeatPassword) {
+    if (!preg_match("/^[a-zA-Z0-9]*$/", $Username)) {
         $result = true;
     }
     else {
@@ -66,6 +66,39 @@ function uidExists($con, $Username) {
     mysqli_stmt_close($stmt);
 }
 
+function badPassword($Password) {
+    $result = true;
+
+    // Validate password strength
+    // adpated from https://www.codexworld.com/how-to/validate-password-strength-in-php/
+    $uppercase = preg_match('@[A-Z]@', $Password);
+    $lowercase = preg_match('@[a-z]@', $Password);
+    $number    = preg_match('@[0-9]@', $Password);
+    $specialChars = preg_match('@[^\w]@', $Password);
+
+    if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($Password) < 8) {
+        $result = true;
+    }
+    else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function pwdMatch($Password, $RepeatPassword) {
+    $result = true;
+    if ($Password !== $RepeatPassword) {
+        $result = true;
+    }
+    else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+
 function createUser($con, $FName, $LName, $Gender, $Edu, $City, $Username, $Password) {
     $sql = "INSERT INTO users (fname, lname, gender_id, edu_id, city_id, username, password)
                VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -89,9 +122,10 @@ function createUser($con, $FName, $LName, $Gender, $Edu, $City, $Username, $Pass
     header("location: signup.php?error=none");
     exit();
 }
+/* functions for sign up page end */
 
 
-/* functions for log in page */
+/* functions for log in page start */
 
 function emptyInputLogIn($user, $pass)
 {
@@ -129,4 +163,76 @@ function loginUser($con, $user, $pass)
         header("location: index.php");
         exit();
     }
+}
+
+/* functions for log in page end */
+
+/* functions for insert page start */
+function emptyInputInsert($UserId, $Tag, $Title, $Content)
+{
+    $result = true;
+    if (empty($Title) || empty ($Content)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function createPost($con, $UserId, $Tag, $Title, $Content) {
+    $sql = "INSERT INTO posts (user_id, tag_id, title, content)
+               VALUES (?, ?, ?, ?)";
+
+    $stmt = mysqli_stmt_init($con); /* initialise prepare statement */
+
+    /* catch backend/sql error */
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: insert.php?error=stmtfailed");
+        exit();
+    }
+
+    /* bind post data input to statement and execute */
+    mysqli_stmt_bind_param($stmt, "ssss", $UserId, $Tag, $Title, $Content);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    /* redirect user to insert page, states no error */
+    header("location: insert.php?error=none");
+    exit();
+}
+/* functions for insert page end */
+
+/* functions for edit page start */
+function emptyInputUpdate($Title, $Content)
+{
+    $result = true;
+    if (empty($Title) || empty ($Content)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function updatePost($con, $PostID, $Title, $Content) {
+    $sql = "UPDATE posts SET title= ?, content= ? WHERE post_id= ? ";
+
+    $stmt = mysqli_stmt_init($con); /* initialise prepare statement */
+
+    /* catch backend/sql error */
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: edit.php?error=stmtfailed");
+        exit();
+    }
+
+    /* bind post data input to statement and execute */
+    mysqli_stmt_bind_param($stmt, "sss",  $Title, $Content, $PostID);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    /* redirect user to insert page, states no error */
+    header("location: edit.php?error=none");
+    exit();
 }
