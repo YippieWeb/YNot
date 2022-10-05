@@ -12,9 +12,27 @@ function emptyInputSignUp($FName, $LName, $Gender, $Edu, $City, $Username, $Pass
     return $result;
 }
 
+
+// check if any input on sign up page exceeds limit
+function exceedLimit($FName, $LName, $Username, $Password) {
+    if (strlen($FName) > 30){
+        $result = 'longfname';
+    } else if (strlen($LName) > 30){
+        $result = 'longlname';
+    } else if (strlen($Username) > 64){
+        $result = 'longusername';
+    } else if (strlen($Password) > 128){
+        $result = 'longpassword';
+    } else {
+        $result = 'allpass';
+    }
+
+    return $result;
+}
+
 function invalidName($FName, $LName) {
     $result = true;
-    if (!preg_match("/^[a-zA-Z]*$/", $FName OR $LName)) {
+    if (!preg_match("/^[a-zA-Z]*$/", $FName) OR !preg_match("/^[a-zA-Z]*$/", $LName)) {
         $result = true;
     }
     else {
@@ -148,15 +166,16 @@ function loginUser($con, $user, $pass)
         exit();
     }
 
-    $pwdHashed = trim($uidExists["password"]);
+    $pwdHashed = $uidExists["password"];
+    $checkPwd = password_verify($pass, $pwdHashed);
 
     /* check if password matches username */
     /*$checkPwd = password_verify($pass, $pwdHashed);*/
 
-    if ($pass != $pwdHashed) {
+    if ($checkPwd == false) {
         header("location: login.php?error=wronglogin");
         exit();
-    } else if ($pass == $pwdHashed) {
+    } else if ($checkPwd == true) {
         session_start();
         $_SESSION["user_id"] = $uidExists["user_id"];
         $_SESSION["username"] = $uidExists["username"];
@@ -180,9 +199,20 @@ function emptyInputInsert($UserId, $Tag, $Title, $Content)
     return $result;
 }
 
-function createPost($con, $UserId, $Tag, $Title, $Content) {
-    $sql = "INSERT INTO posts (user_id, tag_id, title, content)
-               VALUES (?, ?, ?, ?)";
+function exceedLimitInsert($Title, $Content) {
+    if (strlen($Title) > 100){
+        $result = 'longtitle';
+    } else if (strlen($Content) > 2000){
+        $result = 'longcontent';
+    } else {
+        $result = 'allpass';
+    }
+    return $result;
+}
+
+function createPost($con, $UserId, $Tag, $Title, $Content, $Date) {
+    $sql = "INSERT INTO posts (user_id, tag_id, title, content, post_date)
+               VALUES (?, ?, ?, ?, ?)";
 
     $stmt = mysqli_stmt_init($con); /* initialise prepare statement */
 
@@ -193,7 +223,7 @@ function createPost($con, $UserId, $Tag, $Title, $Content) {
     }
 
     /* bind post data input to statement and execute */
-    mysqli_stmt_bind_param($stmt, "ssss", $UserId, $Tag, $Title, $Content);
+    mysqli_stmt_bind_param($stmt, "sssss", $UserId, $Tag, $Title, $Content, $Date);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 

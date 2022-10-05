@@ -25,6 +25,12 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
+    $Exceed = exceedLimitInsert($FName, $LName, $Username, $Password);
+    if($Exceed !== 'allpass') {
+        header("location: signup.php?error=$Exceed");
+        exit();
+    }
+
     // catch invalid name (i.e. contain special characters)
     if(invalidName($FName, $LName) !== false) {
         header("location: signup.php?error=invalidname");
