@@ -5,29 +5,54 @@
     padding: 0;
     box-sizing: border-box;
     margin: auto;
-}
-
-header{
-    display: flex;
-    align-items: center;
-    border-bottom: solid 0.1rem black;
-    padding: 1rem;
-}
-
-header h1{
-    text-align: left;
-}
-
-header nav a{
-    text-align: center;
-    text-decoration: none;
+    overflow-x: hidden;
 }
 
 main{
     padding: 2rem;
 }
 
-body{
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-bottom: solid 1px #c4c4c4;
+}
+
+.brand-title {
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.navbar-links ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar-links li{
+    list-style: none;
+}
+
+.navbar-links li a {
+    text-decoration: none;
+    padding: 1rem;
+    display: block;
+}
+
+.toggle-button{
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    display: none;
+    font-size: 30px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body {
     text-align: center;
 }
 
@@ -50,7 +75,7 @@ h4{
 
 a{
     text-decoration: none;
-    padding: 0.5rem;
+    padding: 0.8rem;
     color: black;
 }
 
@@ -59,7 +84,7 @@ a{
 }
 
 .ins a{
-    color: #2f74b1;
+    color: #f58800;
 }
 
 
@@ -95,57 +120,94 @@ td{
 }
 
 /* buttons */
-.btn-1, .btn-2{
+.signup-btn, .login-btn, .logout-btn, .btn-1{
     font-family: 'Poppins', sans-serif;
     padding: 0.5rem 0.8rem 0.5rem;
     text-align: center;
     text-decoration: none;
     font-size: 0.8rem;
-    border: solid 0.1rem;
+    border: solid 0.1rem black;
     background-color: black;
     color: white;
     height: 2.5rem;
+    width: 5rem;
 }
 
+.login-btn{
+    background-color: white;
+    color: black;
+}
+
+.profile-tab{
+    display: inline-flex;
+    justify-content: space-around;
+    width: 10rem;
+}
+
+.var-1{
+    width: 400px;
+}
 
 .var-2{
     width: 7rem;
 }
 
-.edit-btn{
+.var-3{
+    width: 11rem;
+    margin: 0;
+}
+
+.edit-btns{
     padding-top: 1rem;
     display: inline-flex;
-    width: 15rem;
+    justify-content: space-between;
+    width: 360px;
+}
+
+.delete-div{
+    padding-top: 0.2px;
+    margin: 0;
 }
 
 .delete-btn{
     background-color: #AE2012;
     border: none;
-    height: 2.3rem;
-    width: 6.9rem;
+    height: 2.35rem;
+    width: 11rem;
+    margin: 0;
 }
 
-.delete-btn a{
+.submit-btn{
+    background-color: black;
+    color: white;
+    border: none;
+    height: 2.35rem;
+    width: 11rem;
+    margin: 0;
+}
+
+.delete-btn a, .submit-btn a{
     color: white;
     font-family: 'Poppins', sans-serif;
     line-height: 1rem;
 }
 
-
-.btn-2{
+.delete-btn:hover {
     background-color: white;
-    color: black;
- }
-
-.btn-1:hover{
-    background-color: white;
-    color: black;
+    color: #AE2012;
+    border: solid 1px;
 }
 
-.btn-2:hover{
-    background-color: black;
-    color: white;
+.delete-btn:hover a {
+    color: #AE2012;
 }
+
+.submit-btn:hover, .btn-1:hover, btn-2:hover{
+    background-color: white;
+    color: black;
+    border: solid 1px;
+}
+
 
 /* add post form */
 .add-post{
@@ -163,7 +225,7 @@ td{
 input, textarea, select{
     font-family: 'Poppins', sans-serif;
     font-size: 0.85rem;
-    height: 35px;
+    height: 40px;
     width: 400px;
     border: 1px solid #adadad;
     border-radius: 2px;
@@ -174,6 +236,10 @@ textarea{
     height: 200px;
 }
 
+.edit-form textarea, .edit-form input.title{
+    width: 360px;
+}
+
 .stories input, .stories select{
     height: 40px;
     width: 200px;
@@ -182,12 +248,17 @@ textarea{
 .post{
     border-radius: 1rem;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-    max-width: 500px;
+    width: 100%;
     height: 500px;
     text-align: left;
-    padding: 2rem;
+    padding: 1.5rem;
     overflow-y: auto;
     overflow-x: auto;
+}
+
+.post.edit{
+    box-shadow: none;
+    height: 400px;
 }
 
 .post p{
@@ -221,13 +292,131 @@ textarea{
 }
 
 .post-container{
+    max-width: 1300px;
+    margin: 20px auto;
     display: grid;
-    gap: 2rem;
-    grid-template-columns: auto auto auto;
-    padding: 10px;
+    grid-template-columns: repeat(auto-fit, 400px);
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
 }
 
 .stories-page{
     margin: auto;
     justify-content: center;
+}
+
+span{
+    position: absolute;
+    transform: translate(-200%, 40%);
+    cursor: pointer;
+}
+
+.fa-eye{
+    color: dimgrey;
+}
+
+@media (max-width: 680px) {
+    .toggle-button{
+        display: flex;
+    }
+
+    .brand-title{
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
+    }
+
+    .navbar-links{
+        display: none;
+        width: 100%;
+    }
+
+    .navbar{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-links ul {
+        width: 100%;
+        flex-direction: column;
+        border-top: 1px solid #c4c4c4;
+    }
+
+    .navbar-links{
+        text-align: center;
+    }
+
+    .navbar-links li {
+        width: 100%;
+        border-bottom: 1px solid #c4c4c4;
+    }
+    
+    .navbar-links li:last-child {
+        width: 100%;
+        border-bottom: 0;
+    }
+
+    .navbar-links.element{
+        outline: 1px solid black;
+    }
+
+
+    .navbar-links li a{
+        padding: .5rem 1rem;
+    }
+
+    .navbar-links.active{
+        display: flex;
+    }
+
+    .signup-btn, .login-btn, .logout-btn{
+        background-color: white;
+        color: black;
+        border: none;
+        font-size: 1rem;
+        width: 6rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .stories-head input, .stories-head select{
+        width: 200px;
+    }
+
+    input.btn-1.var-2 {
+        width: 7rem;
+    }
+}
+
+@media (max-width: 490px) {
+    .post-container{
+        grid-template-columns: repeat(auto-fit, 360px);
+    }
+
+    .stories-btns{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    input, textarea, select, .var-2, .var-1{
+        width: 320px;
+    }
+
+    .var-2{
+        margin-top: 1rem;
+    }
+
+    .stories-btns a{
+        padding: 0;
+    }
+
+    input.stories-btns, select.stories-btns{
+        width: 150px;
+    }
+
+    .post.edit{
+        overflow-x: hidden;
+        padding: 0;
+    }
 }

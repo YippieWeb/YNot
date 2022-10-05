@@ -48,7 +48,8 @@ else {
                   AND posts.tag_id = tags.tag_id
                   AND users.gender_id = genders.gender_id
                   AND users.city_id = cities.city_id
-                  AND users.edu_id = educations.edu_id";
+                  AND users.edu_id = educations.edu_id
+                  ORDER BY posts.post_date DESC";
     $result = mysqli_query($con, $all_query);
 }
 ?>
@@ -58,6 +59,7 @@ include_once 'header.php';
 ?>
 
 <main class="stories-page">
+    <div class="stories-head">
     <!--search bar-->
     <form action="stories.php" method="post">
         <label for="search">
@@ -79,28 +81,30 @@ include_once 'header.php';
             ?>
         </select>
         <input class="btn-1 var-2" type='submit' name='sorting_button' value='Sort'>
-    </form>
-    <br>
+    </form><br>
 
-    <!--refresh button-->
+    <!-- refresh button -->
+    <div class="stories-btns">
     <a href="stories.php">
-        <button class="btn-1">Refresh page</button>
+        <button class="btn-1 var-2">Refresh</button>
     </a>
 
     <?php
     if (isset($_SESSION["user_id"])) {
         echo "
         <!--- a button that allows adding post --->
-    <a href=\"insert.php\">
-        <button class=\"btn-1\">Add a post</button>
-    </a>
-
-    <!--- a button that allows updating/deleting post --->
-    <a href=\"edit.php\">
-        <button class=\"btn-1\">Edit a post</button>
-    </a>";
-    }
+        <a href=\"insert.php\">
+            <button class=\"btn-1 var-2\">Add a post</button>
+        </a>
+    
+        <!--- a button that allows updating/deleting post --->
+        <a href=\"edit.php\">
+            <button class=\"btn-1 var-2\">Edit a post</button>
+        </a>";
+        }
     ?>
+    </div>
+    </div>
     <br><br><br>
 
 
@@ -118,7 +122,8 @@ include_once 'header.php';
                 <div class=\"post\">
                 <h4><i class=\"fa-solid fa-user\"></i> " . $row['username'] . "</h4>
                 <h4><i class=\"fa-solid fa-location-dot\"></i> " . $row['city'] . "</h4>
-                <h4><i class=\"fa-solid fa-graduation-cap\"></i> " . $row['education'] . "</h4><br>
+                <h4><i class=\"fa-solid fa-graduation-cap\"></i> " . $row['education'] . "</h4>
+                <h4>Posted on " . $row['post_date'] . "</h4><br>
                 <button class=\"tag\" style=\"color:".$row['text_color']."; background-color:".$row['bg_color'].";\" type=\"button\">" . $row['tag'] . "</button>
                 <h2>" . $row['title'] . "</h2>
                 <p>" . $row['content'] . "</p>
