@@ -26,12 +26,14 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
+    /* if any text field input exceed its character limit */
     $Exceed = exceedLimitInsert($Title, $Content);
     if($Exceed !== 'allpass') {
         header("location: insert.php?error=$Exceed");
         exit();
     }
 
+    /* create a post using entered values */
     createPost($con, $UserId, $Tag, $Title, $Content, $Date);
 }
 else{
