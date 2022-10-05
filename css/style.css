@@ -246,6 +246,8 @@ textarea{
 }
 
 .post{
+    margin-top: 5px;
+    margin-bottom: 5px;
     border-radius: 1rem;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     width: 100%;
@@ -350,7 +352,7 @@ span{
         width: 100%;
         border-bottom: 1px solid #c4c4c4;
     }
-    
+
     .navbar-links li:last-child {
         width: 100%;
         border-bottom: 0;
@@ -390,7 +392,7 @@ span{
 
 @media (max-width: 490px) {
     .post-container{
-        grid-template-columns: repeat(auto-fit, 360px);
+        grid-template-columns: repeat(auto-fit, 320px);
     }
 
     .stories-btns{
@@ -399,7 +401,19 @@ span{
         flex-direction: column;
     }
 
-    input, textarea, select, .var-2, .var-1{
+    .edit-form textarea, .edit-form input.title {
+        width: 320px;
+    }
+
+    .edit-btns{
+        width: 320px;
+    }
+
+    .submit-btn, .delete-btn{
+        width: 9.5rem;
+    }
+
+    .var-2, .var-1{
         width: 320px;
     }
 
