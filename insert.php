@@ -57,10 +57,54 @@ $all_tag_result = mysqli_query($con, $all_tag_query);
             <!--- Ask post title --->
             <label> Title: </label><br>
             <input type="text" name="Title"><br>
+            <?php
+            if (isset($_GET["error"])) {
+                if ($_GET["error"] == "longtitle") {
+                    echo "<h4> Title can't exceed 100 characters. </h4>";
+                }
+            }
+            ?>
+
 
             <!--- Ask post content --->
             <label> Content: </label><br>
-            <textarea type="text" name="Content" rows="2" cols="25" placeholder = "Write Something"></textarea><br><br>
+            <div class="content-container">
+                <textarea type="text" id="content" name="Content" rows="2" cols="25" placeholder = "Type something here.."></textarea>
+                <h4 id="result"></h4>
+            </div>
+
+            <!--Script-->
+            <!-- live character counter adapted from Youtube video -->
+            <!-- title: Limit Character In Input Field | HTML, CSS And Javascript -->
+            <!-- channel: Coding Artist -->
+            <!-- link: https://youtu.be/Tfvlu1NSXek -->
+            <script>
+                var myText = document.getElementById("content");
+                var result = document.getElementById("result");
+                var limit = 2000;
+                result.textContent = 0 + "/" + limit;
+
+                myText.addEventListener("input", function(){
+                    var textLength = myText.value.length;
+                    result.textContent = textLength + "/" + limit;
+
+                    if(textLength < limit){
+                        myText.style.borderColor = "#b2b2b2";
+                        result.style.color = "#737373";
+                    } else {
+                        myText.style.borderColor = "#AE2012";
+                        result.style.color = "#AE2012";
+                    }
+                });
+            </script>
+
+            <?php
+            if (isset($_GET["error"])) {
+                if ($_GET["error"] == "longcontent") {
+                    echo "<h4> Content can't exceed 2000 characters. </h4>";
+                }
+            }
+            ?>
 
             <input class="btn-1 var-1" type='submit' name="submit" id="submit" value='Insert'>
         </form>

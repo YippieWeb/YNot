@@ -5,12 +5,18 @@ if(mysqli_connect_errno()){
 ?>
 
 <?php
+/* Date Query*/
+/* detect current date */
+date_default_timezone_set('Pacific/Auckland');
+$date = date('y-m-d');
+
 if (isset($_POST["submit"])) {
 
     $UserId = $_POST['UserId'];
     $Tag = $_POST['Tag'];
     $Title = $_POST['Title'];
     $Content = $_POST['Content'];
+    $Date = $date;
 
     require_once 'functions.php';
 
@@ -20,7 +26,13 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
-    createPost($con, $UserId, $Tag, $Title, $Content);
+    $Exceed = exceedLimitInsert($Title, $Content);
+    if($Exceed !== 'allpass') {
+        header("location: insert.php?error=$Exceed");
+        exit();
+    }
+
+    createPost($con, $UserId, $Tag, $Title, $Content, $Date);
 }
 else{
     header("location: insert.php");
