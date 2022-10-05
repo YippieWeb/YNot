@@ -19,6 +19,21 @@ if (isset($_SESSION["user_id"])) {
 
 <main>
     <h2> Edit post </h2>
+    <div class="edit-form">
+    <?php
+    if (isset($_GET["error"])) {
+        if ($_GET["error"] == "emptyinput") {
+            echo "<h4> Don't leave it blank! </h4>";
+        } else if ($_GET["error"] == "longtitle") {
+            echo "<h4> Title can't exceed 100 characters. </h4>";
+        } else if ($_GET["error"] == "longcontent") {
+            echo "<h4> Content can't exceed 2000 characters. </h4>";
+        } else if ($_GET["error"] == "none") {
+            echo "<h4> Updated! </h4>";
+        }
+    }
+    ?>
+
         <?php
         if (isset($_SESSION["user_id"])) {
             $count = mysqli_num_rows($update_posts_record);
@@ -26,43 +41,46 @@ if (isset($_SESSION["user_id"])) {
                 echo "<p>You have no post yet.</p>";
             }
             else {
+                echo "<div class=\"post-container edit\">";
                 while ($row = mysqli_fetch_assoc($update_posts_record)) {
+                    echo "<div class=\"post edit\">";
 
                     echo "<form action = process_edit.php method = post>";
-                    echo "<p>Title</p>";
-                    echo "<input type=text name=Title value='" . $row['title'] . "'><br>";
 
-                    echo "<p>Content</p>";
-                    echo "<textarea type=text name=Content>" . $row['content'] . "</textarea><br>";
+                    // editable post title
+                    echo "<p>Title:</p>";
+                    echo "<input class=title type=text name=Title value='" . $row['title'] . "'><br>";
+
+                    // editable post content
+                    echo "<p>Content:</p>";
+                    echo "<textarea class=content type=text name=Content>" . $row['content'] . "</textarea><br>";
+
+                    // getting the post's id
                     echo "<input type=hidden name=PostID value='" . $row['post_id'] . "'>";
-                    echo "<div class='edit-btn'><input class=\"btn-1 var-2\" type=submit name=submit id=submit>
-                          <div class='delete-btn'>
-                          <button class=\"delete-btn\" onclick=\"deleteAlert()\">
+
+                    // sumbit and delete button
+                    echo "<div class='edit-btns'>
+                          <input class=\"submit-btn\" type=submit name=submit id=submit>
+                          <div class='delete-div'>
+                          <button class=\"delete-btn\" onclick=\"return checkdelete()\">
                                <a href=process_delete.php?post_id=" . $row['post_id'] . ">Delete</a>
                           </button>
                           </div></div>";
                     echo "</form>";
+
+                    echo "</div>";
                 }
+                echo "</div>";
             }
         } else {
             echo "<p>Please log in first.</p>";
         }
         ?>
-
-    <?php
-    if (isset($_GET["error"])) {
-        if ($_GET["error"] == "emptyinput") {
-            echo "<h4> Don't leave it blank! </h4>";
-        }
-        else if ($_GET["error"] == "none") {
-            echo "<h4> Updated! </h4>";
-        }
-    }
-    ?>
+    </div>
 </main>
 
 <script>
-    function deleteAlert() {
-        alert("Are you sure you want to delete this post?");
+    function checkdelete() {
+        return confirm('Permanently delete this post?');
     }
 </script>

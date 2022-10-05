@@ -30,6 +30,7 @@ function exceedLimit($FName, $LName, $Username, $Password) {
     return $result;
 }
 
+// check if name is valid
 function invalidName($FName, $LName) {
     $result = true;
     if (!preg_match("/^[a-zA-Z]*$/", $FName) OR !preg_match("/^[a-zA-Z]*$/", $LName)) {

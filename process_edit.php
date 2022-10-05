@@ -18,6 +18,12 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
+    $Exceed = exceedLimitInsert($Title, $Content);
+    if($Exceed !== 'allpass') {
+        header("location: edit.php?error=$Exceed");
+        exit();
+    }
+
     updatePost($con, $PostID, $Title, $Content);
 }
 else{
